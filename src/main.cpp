@@ -1,8 +1,7 @@
 #include <Arduino.h>
-#include <cstdint.h>
 
-constexpr ulong baudrate = 9600;    // ボーレート
-constexpr uint strlen = 22;         // フレーム長
+constexpr unsigned long baudrate = 9600;    // ボーレート
+constexpr unsigned int framelen = 22;         // フレーム長
 
 // シリアル受信フォーマット
 // D,SCCC,SSS,MMM,BBB,AAAN
@@ -31,12 +30,12 @@ void setup() {
 void loop() {
     if (Serial.available()) {
         String str = Serial.readStringUntil('N');
-        if (str.len >= strlen) {
-            str = str.substring(str.len - strlen);
+        if (str.length() >= framelen) {
+            str = str.substring(str.length() - framelen);
             
             door = str.substring(0, 1).toInt();
             current = str.substring(3, 3).toInt();
-            if (str.charAt(2) = '-') current *= -1;
+            if (str.charAt(2) == '-') current *= -1;
             speed = str.substring(7, 3).toInt();
             mr = str.substring(11, 3).toInt();
             bp = str.substring(15, 3).toInt();
