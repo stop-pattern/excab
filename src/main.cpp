@@ -17,7 +17,7 @@ constexpr unsigned int framelen = 22;         // フレーム長
 
 bool door = 0;
 int current = 0;
-int speed = 0;
+int spd = 0;
 int mr = 0;
 int bp = 0;
 int sap = 0;
@@ -28,6 +28,7 @@ void setup() {
 }
 
 void loop() {
+    // シリアル読み込み
     if (Serial.available()) {
         String str = Serial.readStringUntil('N');
         if (str.length() >= framelen) {
@@ -36,11 +37,13 @@ void loop() {
             door = str.substring(0, 1).toInt();
             current = str.substring(3, 3).toInt();
             if (str.charAt(2) == '-') current *= -1;
-            speed = str.substring(7, 3).toInt();
+            spd = str.substring(7, 3).toInt();
             mr = str.substring(11, 3).toInt();
             bp = str.substring(15, 3).toInt();
             sap = str.substring(19, 3).toInt();
         }
     }
+
+    // loop待機
     delay(1);
 }
